@@ -327,7 +327,7 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
 <button id="music-btn" onclick="toggleMusic()" title="Toggle music">🔇</button>
 
 <!-- ══ OPENING SCREEN ══ -->
-<div id="dancer-screen" onclick="openInvitation()">
+<div id="dancer-screen" onclick="openInvitation()" ontouchstart="this._touched=true;openInvitation()" ontouchend="event.preventDefault()">
   <div class="wave-stripe top"><div class="wave-stripe-inner"></div></div>
   <div class="wave-stripe bottom"><div class="wave-stripe-inner"></div></div>
 
@@ -866,21 +866,52 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
 })();
 
 let musicStarted=false,muted=false;
-const bgm=document.getElementById('bgm');bgm.volume=0;
-function fadeInMusic(){
+const bgm=document.getElementById('bgm');
+
+function unlockAndPlay(){
   if(musicStarted)return;
   musicStarted=true;
-  bgm.volume=0;
-  bgm.play().then(()=>{
-    const btn=document.getElementById('music-btn');
-    btn.style.display='flex';btn.textContent='🔊';
-    let vol=0;
-    const iv=setInterval(()=>{vol=Math.min(vol+0.03,0.7);bgm.volume=vol;if(vol>=0.7)clearInterval(iv);},80);
-  }).catch(()=>{
-    const btn=document.getElementById('music-btn');btn.style.display='flex';btn.textContent='▶';
-  });
+
+  // Unlock AudioContext on iOS (required)
+  const AudioContext=window.AudioContext||window.webkitAudioContext;
+  if(AudioContext){
+    const ctx=new AudioContext();
+    if(ctx.state==='suspended') ctx.resume();
+  }
+
+  bgm.volume=0.7;
+  bgm.muted=false;
+  bgm.load(); // force mobile to load before play
+
+  const playPromise=bgm.play();
+  if(playPromise!==undefined){
+    playPromise.then(()=>{
+      const btn=document.getElementById('music-btn');
+      btn.style.display='flex';btn.textContent='🔊';
+    }).catch(()=>{
+      // Retry once after tiny delay (some Android browsers need this)
+      setTimeout(()=>{
+        bgm.play().then(()=>{
+          const btn=document.getElementById('music-btn');
+          btn.style.display='flex';btn.textContent='🔊';
+        }).catch(()=>{
+          const btn=document.getElementById('music-btn');
+          btn.style.display='flex';btn.textContent='▶';
+        });
+      },300);
+    });
+  }
+
+  const btn=document.getElementById('music-btn');
+  btn.style.display='flex';btn.textContent='🔊';
 }
-function toggleMusic(){const btn=document.getElementById('music-btn');if(!musicStarted){bgm.play();musicStarted=true;bgm.volume=0.6;btn.textContent='🔊';}else if(muted){bgm.muted=false;muted=false;btn.textContent='🔊';}else{bgm.muted=true;muted=true;btn.textContent='🔇';}}
+
+function toggleMusic(){
+  const btn=document.getElementById('music-btn');
+  if(!musicStarted){unlockAndPlay();return;}
+  if(muted){bgm.muted=false;muted=false;btn.textContent='🔊';}
+  else{bgm.muted=true;muted=true;btn.textContent='🔇';}
+}
 
 function spawnConfetti(){
   const colors=['#e76f51','#ff85a1','#ffb5a7','#d4a373','#ffeae2'];
@@ -888,18 +919,7 @@ function spawnConfetti(){
 }
 
 function openInvitation(){
-  // Play IMMEDIATELY inside the user gesture — mobile requires this
-  if(!musicStarted){
-    musicStarted=true;
-    bgm.volume=0.7;
-    bgm.play().then(()=>{
-      const btn=document.getElementById('music-btn');
-      btn.style.display='flex';btn.textContent='🔊';
-    }).catch(()=>{
-      const btn=document.getElementById('music-btn');
-      btn.style.display='flex';btn.textContent='▶';
-    });
-  }
+  unlockAndPlay(); // must be first line inside gesture handler
   const screen=document.getElementById('dancer-screen');
   screen.style.transition='opacity 0.6s ease-out,transform 0.6s ease-out';
   screen.style.opacity='0';screen.style.transform='scale(0.95)';
