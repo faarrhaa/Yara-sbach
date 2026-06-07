@@ -215,7 +215,7 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
 .cnum{font-size:clamp(30px,6vw,50px);font-weight:300;color:var(--sand-light);line-height:1;font-family:'Playfair Display',serif;}
 .clbl{font-size:11px;letter-spacing:3px;color:var(--coral-light);margin-top:6px;text-transform:uppercase;font-weight:500;}
 
-#venue-bg{position:absolute;inset:-60px;background-size:cover;background-position:center;will-change:transform;}
+#venue-bg{position:absolute;inset:-60px;background-size:cover;background-position:center;will-change:transform;transition:transform .1s linear;}
 #venue-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(74,40,16,.5),rgba(43,26,19,.85));}
 #venue-content{position:relative;z-index:2;text-align:center;padding:90px 24px;}
 
@@ -320,14 +320,20 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
 })();
 </script>
 
-<audio id="bgm" loop preload="auto" playsinline webkit-playsinline x5-playsinline>
+<!-- Removed playsinline/webkit-playsinline/x5-playsinline (not needed for audio, can cause mobile quirries) -->
+<audio id="bgm" loop preload="auto">
   <source src="helela.mp3" type="audio/mpeg">
   <source src="helela.m4a" type="audio/mp4">
 </audio>
 <button id="music-btn" onclick="toggleMusic()" title="Toggle music">🔇</button>
 
 <!-- ══ OPENING SCREEN ══ -->
-<div id="dancer-screen" onclick="openInvitation()" ontouchstart="this._touched=true;openInvitation()" ontouchend="event.preventDefault()">
+<!-- Removed ontouchstart and ontouchend to prevent double-fire on mobile -->
+<div id="dancer-screen" onclick="openInvitation()">
+  
+  <!-- Added missing dancer-stars container so the twinkling JS actually works -->
+  <div id="dancer-stars" style="position:absolute;inset:0;pointer-events:none;z-index:1;"></div>
+
   <div class="wave-stripe top"><div class="wave-stripe-inner"></div></div>
   <div class="wave-stripe bottom"><div class="wave-stripe-inner"></div></div>
 
@@ -364,20 +370,13 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
     <!-- Yacht -->
     <div class="beach-yacht" style="bottom:42%;right:12%;">
       <svg width="110" height="72" viewBox="0 0 110 72">
-        <!-- Hull -->
         <path d="M10 52 Q55 62 100 52 L96 58 Q55 68 14 58 Z" fill="#c8563a"/>
         <path d="M14 52 L96 52 L100 52 Q55 62 10 52 Z" fill="#e07a5f"/>
-        <!-- Deck line -->
         <line x1="14" y1="52" x2="96" y2="52" stroke="rgba(255,255,255,0.4)" stroke-width="1.2"/>
-        <!-- Mast -->
         <line x1="55" y1="52" x2="55" y2="8" stroke="#8b5e2a" stroke-width="2"/>
-        <!-- Main sail -->
         <path d="M55 10 L90 48 L55 48 Z" fill="rgba(255,255,255,0.82)"/>
-        <!-- Foresail -->
         <path d="M55 18 L24 48 L55 48 Z" fill="rgba(255,240,220,0.75)"/>
-        <!-- Pink flag -->
         <path d="M55 8 L68 12 L55 16 Z" fill="#ff85a1"/>
-        <!-- Portholes -->
         <circle cx="30" cy="55" r="3" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
         <circle cx="55" cy="55" r="3" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
         <circle cx="80" cy="55" r="3" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
@@ -397,15 +396,12 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
     <!-- Palm tree -->
     <div class="palm-left">
       <svg width="72" height="110" viewBox="0 0 72 110">
-        <!-- Trunk -->
         <path d="M36 108 Q32 80 34 55 Q36 30 38 10" stroke="#8b6320" stroke-width="7" fill="none" stroke-linecap="round"/>
-        <!-- Fronds -->
         <path d="M38 12 Q55 0 70 8 Q58 18 40 20 Z" fill="#5a8c3a" opacity=".85"/>
         <path d="M37 14 Q18 2 4 10 Q16 20 36 22 Z" fill="#6a9c42" opacity=".8"/>
         <path d="M38 12 Q60 14 68 28 Q52 26 38 24 Z" fill="#4a7c30" opacity=".75"/>
         <path d="M37 14 Q14 18 6 32 Q22 28 38 26 Z" fill="#5a8c3a" opacity=".7"/>
         <path d="M38 11 Q44 -4 56 -2 Q50 12 40 18 Z" fill="#6a9c42" opacity=".8"/>
-        <!-- Coconuts -->
         <circle cx="40" cy="20" r="4" fill="#c8a040" opacity=".9"/>
         <circle cx="35" cy="22" r="3.5" fill="#b89030" opacity=".9"/>
       </svg>
@@ -484,36 +480,19 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
 
   <!-- ── BEACH VIBES INTRO SLIDE ── -->
   <section class="reveal-section" style="position:relative;overflow:hidden;min-height:340px;display:flex;align-items:center;justify-content:center;padding:0;">
-    <!-- Sky to sea gradient -->
     <div style="position:absolute;inset:0;background:linear-gradient(180deg,#ffb88c 0%,#ffd4a3 20%,#ffe9cc 38%,#b8dff0 58%,#7bbfd4 78%,#5baac8 100%);"></div>
-
-    <!-- Animated sun -->
     <div style="position:absolute;top:12%;left:50%;transform:translateX(-50%);width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,#ffe066 30%,#ffb347 75%,rgba(255,179,71,0) 100%);box-shadow:0 0 50px 16px rgba(255,200,80,.5),0 0 100px 30px rgba(255,160,50,.2);animation:sunGlow 4s ease-in-out infinite;z-index:2;"></div>
-
-    <!-- Sun reflection on water -->
     <div style="position:absolute;top:56%;left:50%;transform:translateX(-50%);width:28px;height:70px;background:linear-gradient(to bottom,rgba(255,220,100,.45),transparent);border-radius:50%;filter:blur(4px);z-index:2;"></div>
-
-    <!-- Clouds -->
     <div style="position:absolute;top:15%;left:8%;width:80px;height:24px;border-radius:50px;background:rgba(255,255,255,.6);filter:blur(3px);z-index:2;"></div>
     <div style="position:absolute;top:13%;left:14%;width:50px;height:16px;border-radius:50px;background:rgba(255,255,255,.45);filter:blur(2px);z-index:2;"></div>
     <div style="position:absolute;top:18%;right:9%;width:100px;height:28px;border-radius:50px;background:rgba(255,255,255,.55);filter:blur(3px);z-index:2;"></div>
-
-    <!-- Seagull -->
     <div style="position:absolute;top:24%;left:-20px;animation:seagull 9s linear infinite;z-index:3;">
       <svg width="26" height="12" viewBox="0 0 26 12"><path d="M0 6 Q6.5 1 13 6 Q19.5 11 26 6" stroke="rgba(74,40,16,.45)" stroke-width="1.4" fill="none"/></svg>
     </div>
-
-    <!-- Water body -->
     <div style="position:absolute;bottom:0;left:0;right:0;height:48%;background:linear-gradient(180deg,#5baac8 0%,#3d7a9a 60%,#2a5f7a 100%);z-index:1;"></div>
-
-    <!-- Wave shimmer -->
     <div style="position:absolute;bottom:38%;left:-10%;width:120%;height:22px;background:repeating-linear-gradient(90deg,transparent 0,transparent 40px,rgba(255,255,255,.08) 40px,rgba(255,255,255,.08) 80px);animation:waveAnim 6s linear infinite;z-index:2;"></div>
-
-    <!-- Wave crests -->
     <div style="position:absolute;bottom:40%;left:-5%;width:110%;height:22px;border-radius:50%;background:linear-gradient(to bottom,rgba(255,255,255,.2),transparent);filter:blur(1px);animation:waveRise 3s ease-in-out infinite;z-index:2;"></div>
     <div style="position:absolute;bottom:34%;left:-5%;width:110%;height:16px;border-radius:50%;background:linear-gradient(to bottom,rgba(255,255,255,.12),transparent);filter:blur(1px);animation:waveRise 4s ease-in-out infinite .9s;z-index:2;"></div>
-
-    <!-- Yacht -->
     <div style="position:absolute;bottom:40%;right:14%;animation:boatDrift 5s ease-in-out infinite;z-index:3;">
       <svg width="100" height="66" viewBox="0 0 100 66">
         <path d="M8 48 Q50 58 92 48 L88 54 Q50 64 12 54 Z" fill="#c8563a"/>
@@ -528,8 +507,6 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
         <circle cx="72" cy="51" r="2.5" fill="rgba(255,255,255,.3)" stroke="rgba(255,255,255,.5)" stroke-width="1"/>
       </svg>
     </div>
-
-    <!-- Small distant boat -->
     <div style="position:absolute;bottom:42%;left:8%;animation:boatDrift 7s ease-in-out infinite 2s;opacity:.5;z-index:3;">
       <svg width="55" height="38" viewBox="0 0 55 38">
         <path d="M4 28 Q27 36 50 28 L47 32 Q27 40 7 32 Z" fill="#c8563a"/>
@@ -538,14 +515,8 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
         <path d="M27 12 L10 26 L27 26 Z" fill="rgba(255,240,220,.65)"/>
       </svg>
     </div>
-
-    <!-- Sand beach strip -->
     <div style="position:absolute;bottom:0;left:0;right:0;height:72px;background:linear-gradient(to top,#d4a055,#e8c06a,rgba(240,200,110,0));z-index:4;border-radius:55% 55% 0 0 / 18px 18px 0 0;"></div>
-
-    <!-- Sand texture lines -->
     <div style="position:absolute;bottom:0;left:0;right:0;height:36px;background:repeating-linear-gradient(90deg,transparent 0,transparent 55px,rgba(180,130,60,.2) 55px,rgba(180,130,60,.2) 57px);z-index:5;"></div>
-
-    <!-- Palm left -->
     <div style="position:absolute;bottom:60px;left:0;z-index:5;">
       <svg width="68" height="100" viewBox="0 0 68 100">
         <path d="M34 98 Q30 75 32 50 Q34 28 36 8" stroke="#8b6320" stroke-width="6" fill="none" stroke-linecap="round"/>
@@ -557,8 +528,6 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
         <circle cx="33" cy="21" r="3.5" fill="#b89030" opacity=".85"/>
       </svg>
     </div>
-
-    <!-- Palm right -->
     <div style="position:absolute;bottom:60px;right:0;z-index:5;transform:scaleX(-1);">
       <svg width="58" height="90" viewBox="0 0 58 90">
         <path d="M29 88 Q26 68 28 45 Q30 24 31 6" stroke="#8b6320" stroke-width="5" fill="none" stroke-linecap="round"/>
@@ -568,8 +537,6 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
         <circle cx="32" cy="17" r="3.5" fill="#c8a040" opacity=".85"/>
       </svg>
     </div>
-
-    <!-- Shell decorations on sand -->
     <div style="position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:6;display:flex;gap:18px;align-items:center;">
       <span style="font-size:18px;opacity:.75;">🐚</span>
       <span style="font-size:14px;opacity:.6;">⭐</span>
@@ -577,8 +544,6 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
       <span style="font-size:13px;opacity:.55;">⭐</span>
       <span style="font-size:16px;opacity:.7;">🐚</span>
     </div>
-
-    <!-- Center text overlay -->
     <div style="position:relative;z-index:6;text-align:center;padding:32px 24px 100px;">
       <div style="font-family:'Dancing Script',cursive;font-size:clamp(28px,6vw,48px);color:#321608;text-shadow:0 2px 12px rgba(255,200,130,.7);line-height:1.2;margin-bottom:10px;">Welcome to El Gouna 🌊</div>
       <div style="font-family:'Playfair Display',serif;font-size:clamp(13px,2.5vw,16px);color:#5a3010;letter-spacing:3px;font-style:italic;">Bachelorette Weekend · 12 / 6 – 15 / 6</div>
@@ -855,6 +820,7 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
 </div>
 
 <script>
+/* ── Opening Stars (Now actually renders because #dancer-stars exists) ── */
 (function(){
   const c=document.getElementById('dancer-stars');
   if(!c)return;
@@ -865,80 +831,113 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
   }
 })();
 
-let musicStarted=false,muted=false;
+/* ── Music Logic (Mobile-Safe) ── */
+let musicStarted=false, muted=false;
 const bgm=document.getElementById('bgm');
 
-function unlockAndPlay(){
-  if(musicStarted)return;
+function fadeInMusic(){
+  if(musicStarted) return;
   musicStarted=true;
-
-  // Unlock AudioContext on iOS (required)
-  const AudioContext=window.AudioContext||window.webkitAudioContext;
-  if(AudioContext){
-    const ctx=new AudioContext();
-    if(ctx.state==='suspended') ctx.resume();
-  }
-
-  bgm.volume=0.7;
-  bgm.muted=false;
-  bgm.load(); // force mobile to load before play
-
+  
+  // Start at 0 volume to fade in smoothly
+  bgm.volume=0;
+  
   const playPromise=bgm.play();
   if(playPromise!==undefined){
     playPromise.then(()=>{
+      let v=0;
+      const t=setInterval(()=>{
+        v=Math.min(v+0.02, 0.65);
+        bgm.volume=v;
+        if(v>=0.65) clearInterval(t);
+      }, 120);
       const btn=document.getElementById('music-btn');
-      btn.style.display='flex';btn.textContent='🔊';
+      btn.style.display='flex'; btn.textContent='🔊';
     }).catch(()=>{
-      // Retry once after tiny delay (some Android browsers need this)
-      setTimeout(()=>{
-        bgm.play().then(()=>{
-          const btn=document.getElementById('music-btn');
-          btn.style.display='flex';btn.textContent='🔊';
-        }).catch(()=>{
-          const btn=document.getElementById('music-btn');
-          btn.style.display='flex';btn.textContent='▶';
-        });
-      },300);
+      // Autoplay blocked — show play button so user can manually trigger
+      const btn=document.getElementById('music-btn');
+      btn.style.display='flex'; btn.textContent='▶';
     });
   }
-
-  const btn=document.getElementById('music-btn');
-  btn.style.display='flex';btn.textContent='🔊';
 }
 
 function toggleMusic(){
   const btn=document.getElementById('music-btn');
-  if(!musicStarted){unlockAndPlay();return;}
-  if(muted){bgm.muted=false;muted=false;btn.textContent='🔊';}
-  else{bgm.muted=true;muted=true;btn.textContent='🔇';}
+  if(!musicStarted){ fadeInMusic(); return; }
+  if(muted){ bgm.muted=false; muted=false; btn.textContent='🔊'; }
+  else { bgm.muted=true; muted=true; btn.textContent='🔇'; }
 }
 
+/* ── Confetti ── */
 function spawnConfetti(){
   const colors=['#e76f51','#ff85a1','#ffb5a7','#d4a373','#ffeae2'];
-  for(let i=0;i<60;i++){const el=document.createElement('div');el.className='confetti-piece';el.style.cssText=`left:${20+Math.random()*60}%;top:-10px;background:${colors[i%colors.length]};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.4}s;transform:rotate(${Math.random()*360}deg);`;document.body.appendChild(el);setTimeout(()=>el.remove(),4000);}
+  for(let i=0;i<60;i++){
+    const el=document.createElement('div');el.className='confetti-piece';
+    el.style.cssText=`left:${20+Math.random()*60}%;top:-10px;background:${colors[i%colors.length]};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.4}s;transform:rotate(${Math.random()*360}deg);`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),4000);
+  }
 }
 
+/* ── Open Invitation (Mobile-Safe DOM prioritization) ── */
+let invitationOpened = false;
 function openInvitation(){
-  unlockAndPlay(); // must be first line inside gesture handler
+  if(invitationOpened) return; // Guard against double-fires on mobile
+  invitationOpened = true;
+
+  // 1. DOM TRANSITIONS FIRST (must succeed no matter what)
   const screen=document.getElementById('dancer-screen');
   screen.style.transition='opacity 0.6s ease-out,transform 0.6s ease-out';
-  screen.style.opacity='0';screen.style.transform='scale(0.95)';
+  screen.style.opacity='0';
+  screen.style.transform='scale(0.95)';
   spawnConfetti();
-  setTimeout(()=>{screen.style.display='none';const inv=document.getElementById('invitation');inv.style.display='block';startCountdown();initScrollReveal();initCinematicEnding();},600);
+
+  // 2. LOGIC & AUDIO SECOND (inside timeout, separate from DOM logic)
+  setTimeout(()=>{
+    screen.style.display='none';
+    const inv=document.getElementById('invitation');
+    inv.style.display='block';
+    startCountdown();
+    initScrollReveal();
+    initCinematicEnding();
+    initParallax(); // Added active parallax logic
+    
+    // Audio wrapped in try-catch so it never blocks the UI
+    try { 
+      fadeInMusic(); 
+    } catch(e) { 
+      console.warn('Music failed:', e); 
+    }
+  }, 600);
 }
 
+/* ── Parallax (Now Active) ── */
+function initParallax(){
+  const bg=document.getElementById('venue-bg');
+  if(!bg) return;
+  window.addEventListener('scroll',()=>{
+    const rect=bg.parentElement.getBoundingClientRect();
+    if(rect.bottom>0 && rect.top<window.innerHeight){
+      bg.style.transform=`translateY(${rect.top*0.3}px)`;
+    }
+  },{passive:true});
+}
+
+/* ── Save Date ── */
 function saveDate(e){
   e.preventDefault();
   const ics=['BEGIN:VCALENDAR','VERSION:2.0','BEGIN:VEVENT','DTSTART:20260612T050000','DTEND:20260615T204500',"SUMMARY:Yara's Bride Era — Bachelorette Weekend El Gouna",'LOCATION:Elgouna, Red Sea, Egypt','DESCRIPTION:Bachelorette Weekend · 12/6 – 15/6 · Cowgirl, Hawaiian, Pink Yacht & Wild Girl Eras!','END:VEVENT','END:VCALENDAR'].join('\r\n');
   const blob=new Blob([ics],{type:'text/calendar'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='yara-bride-era.ics';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
+/* ── Countdown ── */
 function startCountdown(){
   const target=new Date('2026-06-12T05:00:00');const pad=n=>String(n).padStart(2,'0');
   function update(){const diff=Math.max(0,target-new Date());document.getElementById('cd-days').textContent=pad(Math.floor(diff/86400000));document.getElementById('cd-hours').textContent=pad(Math.floor((diff%86400000)/3600000));document.getElementById('cd-mins').textContent=pad(Math.floor((diff%3600000)/60000));document.getElementById('cd-secs').textContent=pad(Math.floor((diff%60000)/1000));}
   update();setInterval(update,1000);
 }
 
+/* ── RSVP ── */
 function submitRSVP(){
   const name=document.getElementById('rsvp-name').value.trim();
   if(!name){alert('Please enter your name! 🌊');return;}
@@ -949,16 +948,19 @@ function submitRSVP(){
   document.getElementById('rsvp-name').value='';spawnConfetti();
 }
 
+/* ── Scroll Reveal ── */
 function initScrollReveal(){
   const sections=document.querySelectorAll('.reveal-section');
   const obs=new IntersectionObserver((entries,o)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');if(e.target.id==='cinematic-ending')triggerCinematicEndingParticles();o.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
   sections.forEach(s=>obs.observe(s));
 }
 
+/* ── Cinematic Ending ── */
 function initCinematicEnding(){
   const c=document.getElementById('ending-stars');if(!c)return;
   for(let i=0;i<45;i++){const sz=Math.random()*2+0.5,star=document.createElement('div');star.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:rgba(255,180,100,.8);left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${Math.random()*.5+.1};animation:starTwinkle ${2+Math.random()*3}s ${Math.random()*2}s ease-in-out infinite;`;c.appendChild(star);}
 }
+
 let endingParticlesInterval=null;
 function triggerCinematicEndingParticles(){
   const c=document.getElementById('ending-particles');if(!c||endingParticlesInterval)return;
@@ -967,6 +969,7 @@ function triggerCinematicEndingParticles(){
   endingParticlesInterval=setInterval(spawn,280);
 }
 
+/* ── Loading Screen ── */
 window.addEventListener('DOMContentLoaded',()=>{
   setTimeout(()=>{const loader=document.getElementById('loading-screen');if(loader){loader.style.opacity='0';loader.style.visibility='hidden';setTimeout(()=>loader.remove(),850);}},2400);
 });
