@@ -84,27 +84,18 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
 #dancer-screen{
   min-height:100vh;
   background:linear-gradient(180deg,
-    #ff9f6e 0%,
-    #ffb88c 8%,
-    #ffd4a3 18%,
-    #ffe0c0 28%,
-    #ffecd8 38%,
-    #c9e8f5 52%,
-    #a8d8ea 62%,
-    #7bbfd4 72%,
-    #5baac8 80%,
-    #4a9ab8 88%,
-    #3d8aaa 100%
+    #ff9f6e 0%,#ffb88c 8%,#ffd4a3 18%,#ffe0c0 28%,#ffecd8 38%,
+    #c9e8f5 52%,#a8d8ea 62%,#7bbfd4 72%,#5baac8 80%,#4a9ab8 88%,#3d8aaa 100%
   );
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   cursor:pointer;position:relative;overflow:hidden;padding:40px 20px;
-  user-select:none;-webkit-user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
 }
 
 /* ── Beach scene elements ── */
 #beach-scene{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
 
-/* Sun */
 .beach-sun{
   position:absolute;top:6%;left:50%;transform:translateX(-50%);
   width:80px;height:80px;border-radius:50%;
@@ -112,60 +103,29 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
   box-shadow:0 0 60px 20px rgba(255,200,80,.45),0 0 120px 40px rgba(255,160,50,.2);
   animation:sunGlow 4s ease-in-out infinite;
 }
-/* Sun rays */
 .sun-rays{position:absolute;top:6%;left:50%;transform:translateX(-50%);width:120px;height:120px;border-radius:50%;
   background:conic-gradient(rgba(255,220,100,.18) 0deg 20deg,transparent 20deg 45deg,rgba(255,220,100,.15) 45deg 65deg,transparent 65deg 90deg,rgba(255,220,100,.18) 90deg 110deg,transparent 110deg 135deg,rgba(255,220,100,.15) 135deg 155deg,transparent 155deg 180deg,rgba(255,220,100,.18) 180deg 200deg,transparent 200deg 225deg,rgba(255,220,100,.15) 225deg 245deg,transparent 245deg 270deg,rgba(255,220,100,.18) 270deg 290deg,transparent 290deg 315deg,rgba(255,220,100,.15) 315deg 335deg,transparent 335deg 360deg);
   animation:sunGlow 6s ease-in-out infinite .5s;}
-
-/* Sun reflection on water */
-.sun-reflection{position:absolute;left:50%;transform:translateX(-50%);
-  width:40px;background:linear-gradient(to bottom,rgba(255,220,100,.5),transparent);
-  border-radius:50%;filter:blur(3px);}
-
-/* Clouds */
+.sun-reflection{position:absolute;left:50%;transform:translateX(-50%);width:40px;background:linear-gradient(to bottom,rgba(255,220,100,.5),transparent);border-radius:50%;filter:blur(3px);}
 .cloud{position:absolute;border-radius:50px;background:rgba(255,255,255,.65);filter:blur(2px);}
-
-/* Water layers */
-.water-layer{position:absolute;left:-10%;width:120%;height:52%;bottom:0;
-  background:linear-gradient(180deg,#3d8aaa 0%,#2a6f8f 40%,#1e5c78 100%);}
-.water-shimmer{position:absolute;left:-10%;width:120%;height:18%;bottom:32%;
-  background:repeating-linear-gradient(90deg,
-    transparent 0,transparent 40px,
-    rgba(255,255,255,.06) 40px,rgba(255,255,255,.06) 80px);
-  animation:waveAnim 6s linear infinite;}
-
-/* Wave crests */
-.wave-crest{position:absolute;left:-5%;width:110%;height:28px;border-radius:50%;
-  background:linear-gradient(to bottom,rgba(255,255,255,.22),transparent);
-  filter:blur(1px);}
+.water-layer{position:absolute;left:-10%;width:120%;height:52%;bottom:0;background:linear-gradient(180deg,#3d8aaa 0%,#2a6f8f 40%,#1e5c78 100%);}
+.water-shimmer{position:absolute;left:-10%;width:120%;height:18%;bottom:32%;background:repeating-linear-gradient(90deg,transparent 0,transparent 40px,rgba(255,255,255,.06) 40px,rgba(255,255,255,.06) 80px);animation:waveAnim 6s linear infinite;}
+.wave-crest{position:absolute;left:-5%;width:110%;height:28px;border-radius:50%;background:linear-gradient(to bottom,rgba(255,255,255,.22),transparent);filter:blur(1px);}
 .wave-crest.w1{bottom:42%;animation:waveRise 3s ease-in-out infinite;}
 .wave-crest.w2{bottom:37%;animation:waveRise 4s ease-in-out infinite .8s;opacity:.6;}
 .wave-crest.w3{bottom:32%;animation:waveRise 3.5s ease-in-out infinite 1.4s;opacity:.4;}
-
-/* Yacht */
 .beach-yacht{position:absolute;animation:boatDrift 5s ease-in-out infinite;}
 .beach-yacht svg{filter:drop-shadow(0 4px 12px rgba(0,0,0,.18));}
-
-/* Seagulls */
 .seagull{position:absolute;opacity:.7;}
 .seagull svg{animation:waveRise 2s ease-in-out infinite;}
-
-/* Sand strip at very bottom */
-.sand-strip{position:absolute;bottom:0;left:0;right:0;height:60px;
-  background:linear-gradient(to top,#e8c06a,#f5d080,rgba(245,208,128,0));
-  border-radius:60% 60% 0 0 / 20px 20px 0 0;}
-.sand-detail{position:absolute;bottom:0;left:0;right:0;height:30px;
-  background:repeating-linear-gradient(90deg,transparent 0,transparent 60px,rgba(232,180,100,.3) 60px,rgba(232,180,100,.3) 62px);}
-
-/* Palm tree left */
+.sand-strip{position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(to top,#e8c06a,#f5d080,rgba(245,208,128,0));border-radius:60% 60% 0 0 / 20px 20px 0 0;}
+.sand-detail{position:absolute;bottom:0;left:0;right:0;height:30px;background:repeating-linear-gradient(90deg,transparent 0,transparent 60px,rgba(232,180,100,.3) 60px,rgba(232,180,100,.3) 62px);}
 .palm-left{position:absolute;bottom:48px;left:10px;transform-origin:bottom center;}
-
-.wave-stripe{position:absolute;left:0;right:0;height:6px;overflow:hidden;z-index:3;}
+.wave-stripe{position:absolute;left:0;right:0;height:6px;overflow:hidden;z-index:3;pointer-events:none;}
 .wave-stripe.top{top:0;} .wave-stripe.bottom{bottom:0;}
 .wave-stripe-inner{height:100%;width:200%;background:repeating-linear-gradient(90deg,#ff85a1 0,#ff85a1 18px,#ffd4a3 18px,#ffd4a3 28px,#e76f51 28px,#e76f51 38px,#ffd4a3 38px,#ffd4a3 48px);animation:waveAnim 4s linear infinite;opacity:.55;}
 
-.dancer-wrap{position:relative;z-index:4;animation:bodyBob 3.2s ease-in-out infinite;
-  filter:drop-shadow(0 4px 24px rgba(231,111,81,.35));}
+.dancer-wrap{position:relative;z-index:4;animation:bodyBob 3.2s ease-in-out infinite;filter:drop-shadow(0 4px 24px rgba(231,111,81,.35));}
 .d-arm-l{transform-origin:88px 118px;animation:armL 2.4s ease-in-out infinite;}
 .d-arm-r{transform-origin:112px 118px;animation:armR 2.4s ease-in-out infinite .35s;}
 .d-hips{transform-origin:100px 182px;animation:hipSway 1.9s ease-in-out infinite;}
@@ -190,8 +150,9 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
   background:rgba(255,255,255,.75);border:1.5px solid var(--sand);
   color:var(--text-sand);font-size:20px;cursor:pointer;
   display:none;align-items:center;justify-content:center;
-  backdrop-filter:blur(10px);transition:transform .2s;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:transform .2s;
   box-shadow:0 4px 18px rgba(231,111,81,.2);
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
 }
 #music-btn:hover{transform:scale(1.12);}
 
@@ -205,14 +166,17 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
 }
 .hero-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(231,111,81,.1) 0%,transparent 60%);pointer-events:none;}
 
+/* ── Countdown (Grid = equal boxes) ── */
+.countdown-row{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(8px,2vw,24px);max-width:440px;margin:0 auto;}
 .cbox{
   background:rgba(255,255,255,0.72);
-  border-radius:16px;padding:20px 18px;min-width:82px;text-align:center;
+  border-radius:16px;padding:20px 8px;text-align:center;
   box-shadow:0 4px 24px rgba(231,111,81,.1);border:1.5px solid rgba(212,163,115,.35);
   transition:transform .2s,box-shadow .2s;
+  aspect-ratio:1/1.1;display:flex;flex-direction:column;justify-content:center;align-items:center;
 }
 .cbox:hover{transform:scale(1.06);box-shadow:0 8px 32px rgba(231,111,81,.25);}
-.cnum{font-size:clamp(30px,6vw,50px);font-weight:300;color:var(--sand-light);line-height:1;font-family:'Playfair Display',serif;}
+.cnum{font-size:clamp(26px,6vw,50px);font-weight:300;color:var(--sand-light);line-height:1;font-family:'Playfair Display',serif;}
 .clbl{font-size:11px;letter-spacing:3px;color:var(--coral-light);margin-top:6px;text-transform:uppercase;font-weight:500;}
 
 #venue-bg{position:absolute;inset:-60px;background-size:cover;background-position:center;will-change:transform;transition:transform .1s linear;}
@@ -245,16 +209,16 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
   background:var(--bg-card);border-radius:20px;padding:32px 24px;text-align:left;
   border:1.5px solid var(--card-border);box-shadow:0 8px 32px rgba(141,91,76,.08);
   transition:transform .3s,box-shadow .3s,border-color .3s;position:relative;overflow:hidden;
-  backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
 }
 .spicy-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(231,111,81,.18);border-color:var(--sand-light);}
 .spicy-emoji{font-size:38px;margin-bottom:14px;display:block;}
 .spicy-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--cream);margin-bottom:8px;font-weight:700;}
 .spicy-desc{font-size:14px;color:var(--text-sand);font-style:italic;line-height:1.7;}
 
-.form-wrap{background:var(--bg-card);backdrop-filter:blur(16px);border-radius:20px;padding:28px;border:1.5px solid var(--card-border);box-shadow:0 8px 32px rgba(141,91,76,.12);max-width:480px;margin:32px auto 0;}
+.form-wrap{background:var(--bg-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:20px;padding:28px;border:1.5px solid var(--card-border);box-shadow:0 8px 32px rgba(141,91,76,.12);max-width:480px;margin:32px auto 0;}
 .f-label{font-family:'Playfair Display',serif;font-size:12px;color:var(--text-sand);letter-spacing:1px;font-weight:700;display:block;margin-bottom:8px;text-align:left;}
-.f-input{font-family:'DM Sans',sans-serif;outline:none;background:#fffaf7;color:var(--cream);border:1.5px solid rgba(212,163,115,.4);padding:12px 16px;border-radius:12px;width:100%;font-size:15px;transition:border-color .2s,box-shadow .2s;}
+.f-input{font-family:'DM Sans',sans-serif;outline:none;background:#fffaf7;color:var(--cream);border:1.5px solid rgba(212,163,115,.4);padding:12px 16px;border-radius:12px;width:100%;font-size:15px;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none;}
 .f-input::placeholder{color:rgba(74,43,16,.35);}
 .f-input:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(231,111,81,.15);}
 
@@ -278,23 +242,28 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
 
 .confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;animation:confettiFall linear forwards;pointer-events:none;z-index:999;}
 
-.save-date-btn{display:inline-flex;align-items:center;gap:10px;margin-top:24px;padding:14px 36px;font-family:'DM Sans',sans-serif;font-size:14px;letter-spacing:1px;font-weight:500;background:transparent;color:var(--sand-light);border:1.5px solid var(--sand);border-radius:50px;cursor:pointer;transition:all .3s;text-decoration:none;}
+.save-date-btn{display:inline-flex;align-items:center;gap:10px;margin-top:24px;padding:14px 36px;font-family:'DM Sans',sans-serif;font-size:14px;letter-spacing:1px;font-weight:500;background:transparent;color:var(--sand-light);border:1.5px solid var(--sand);border-radius:50px;cursor:pointer;transition:all .3s;text-decoration:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
 .save-date-btn:hover{background:linear-gradient(135deg,#d4a373,#ff85a1);color:#fff;border-color:transparent;}
 
-.rsvp-kiss-wrap{cursor:pointer;display:inline-block;margin:28px auto 0;position:relative;transition:transform 0.25s cubic-bezier(0.175,0.885,0.32,1.275);}
+.rsvp-kiss-wrap{cursor:pointer;display:inline-block;margin:28px auto 0;position:relative;transition:transform 0.25s cubic-bezier(0.175,0.885,0.32,1.275);-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
 .rsvp-kiss-wrap:hover{transform:scale(1.08);}
 .rsvp-kiss-wrap:active{transform:scale(0.95);}
-.rsvp-kiss-mark{font-size:76px;line-height:1;user-select:none;filter:drop-shadow(0 0 12px rgba(255,133,161,.7));animation:pulseBeat 1.8s infinite ease-in-out;}
+.rsvp-kiss-mark{font-size:76px;line-height:1;user-select:none;-webkit-user-select:none;filter:drop-shadow(0 0 12px rgba(255,133,161,.7));animation:pulseBeat 1.8s infinite ease-in-out;}
 .rsvp-kiss-label{font-family:'Playfair Display',serif;font-size:13px;color:var(--text-sand);letter-spacing:3px;text-transform:uppercase;margin-top:12px;font-weight:700;}
 
-.era-card{background:var(--bg-card);backdrop-filter:blur(12px);border-radius:20px;border:1.5px solid var(--card-border);box-shadow:0 8px 32px rgba(141,91,76,.08);padding:32px 24px;flex:1;min-width:220px;max-width:280px;transition:transform 0.3s ease,box-shadow 0.3s ease;}
+.era-card{background:var(--bg-card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:20px;border:1.5px solid var(--card-border);box-shadow:0 8px 32px rgba(141,91,76,.08);padding:32px 24px;flex:1;min-width:220px;max-width:280px;transition:transform 0.3s ease,box-shadow 0.3s ease;}
 .era-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(141,91,76,.15);}
 .era-date{font-size:11px;letter-spacing:3px;color:var(--coral-light);text-transform:uppercase;margin-top:4px;}
 
 @media(max-width:600px){
-  .cbox{min-width:68px;padding:16px 10px;}
+  .countdown-row{max-width:320px;gap:6px;}
+  .cbox{padding:14px 4px;border-radius:10px;aspect-ratio:1/1.15;}
+  .cnum{font-size:clamp(22px,7vw,32px);}
+  .clbl{font-size:clamp(8px,2vw,10px);margin-top:6px;}
   .dress-cards{flex-direction:column;align-items:center;}
   .dress-card{min-width:240px;}
+  .hero-section{padding:60px 16px 48px;}
+  #music-btn{top:12px;right:12px;width:40px;height:40px;font-size:16px;}
 }
 </style>
 </head>
@@ -310,17 +279,17 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
 </div>
 
 <script>
-(function(){
+/* ── Favicon (wrapped in try-catch: emoji canvas can crash on some mobile browsers) ── */
+try{
   const c=document.createElement('canvas');c.width=32;c.height=32;
   const ctx=c.getContext('2d');
   const lnk=document.createElement('link');lnk.rel='icon';lnk.type='image/png';
   document.head.appendChild(lnk);
   ctx.font='22px serif';ctx.textAlign='center';ctx.textBaseline='middle';
   ctx.fillText('🌊',16,16);lnk.href=c.toDataURL();
-})();
+}catch(e){}
 </script>
 
-<!-- Removed playsinline/webkit-playsinline/x5-playsinline (not needed for audio, can cause mobile quirries) -->
 <audio id="bgm" loop preload="auto">
   <source src="helela.mp3" type="audio/mpeg">
   <source src="helela.m4a" type="audio/mp4">
@@ -328,46 +297,32 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
 <button id="music-btn" onclick="toggleMusic()" title="Toggle music">🔇</button>
 
 <!-- ══ OPENING SCREEN ══ -->
-<!-- Removed ontouchstart and ontouchend to prevent double-fire on mobile -->
 <div id="dancer-screen" onclick="openInvitation()">
-  
-  <!-- Added missing dancer-stars container so the twinkling JS actually works -->
+
   <div id="dancer-stars" style="position:absolute;inset:0;pointer-events:none;z-index:1;"></div>
 
   <div class="wave-stripe top"><div class="wave-stripe-inner"></div></div>
   <div class="wave-stripe bottom"><div class="wave-stripe-inner"></div></div>
 
-  <!-- Beach scene -->
   <div id="beach-scene">
-    <!-- Sun & rays -->
     <div class="sun-rays"></div>
     <div class="beach-sun"></div>
-
-    <!-- Sun reflection on water -->
     <div class="sun-reflection" style="top:52%;height:80px;width:36px;"></div>
-
-    <!-- Clouds -->
     <div class="cloud" style="width:90px;height:28px;top:14%;left:12%;opacity:.7;"></div>
     <div class="cloud" style="width:60px;height:20px;top:12%;left:18%;opacity:.5;"></div>
     <div class="cloud" style="width:110px;height:32px;top:18%;right:10%;opacity:.65;"></div>
     <div class="cloud" style="width:70px;height:22px;top:16%;right:17%;opacity:.45;"></div>
-
-    <!-- Seagulls -->
     <div class="seagull" style="top:22%;left:-30px;animation:seagull 8s linear infinite;">
       <svg width="28" height="14" viewBox="0 0 28 14"><path d="M0 7 Q7 2 14 7 Q21 12 28 7" stroke="#5a3010" stroke-width="1.5" fill="none" opacity=".5"/></svg>
     </div>
     <div class="seagull" style="top:28%;left:-60px;animation:seagull 11s linear infinite 2s;">
       <svg width="20" height="10" viewBox="0 0 20 10"><path d="M0 5 Q5 1 10 5 Q15 9 20 5" stroke="#5a3010" stroke-width="1.2" fill="none" opacity=".4"/></svg>
     </div>
-
-    <!-- Water -->
     <div class="water-layer"></div>
     <div class="water-shimmer"></div>
     <div class="wave-crest w1"></div>
     <div class="wave-crest w2"></div>
     <div class="wave-crest w3"></div>
-
-    <!-- Yacht -->
     <div class="beach-yacht" style="bottom:42%;right:12%;">
       <svg width="110" height="72" viewBox="0 0 110 72">
         <path d="M10 52 Q55 62 100 52 L96 58 Q55 68 14 58 Z" fill="#c8563a"/>
@@ -382,8 +337,6 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
         <circle cx="80" cy="55" r="3" fill="rgba(255,255,255,0.3)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
       </svg>
     </div>
-
-    <!-- Second smaller boat far left -->
     <div class="beach-yacht" style="bottom:44%;left:6%;animation-delay:1.5s;opacity:.55;">
       <svg width="60" height="42" viewBox="0 0 60 42">
         <path d="M5 30 Q30 38 55 30 L52 34 Q30 42 8 34 Z" fill="#c8563a"/>
@@ -392,8 +345,6 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
         <path d="M30 12 L12 28 L30 28 Z" fill="rgba(255,240,220,0.65)"/>
       </svg>
     </div>
-
-    <!-- Palm tree -->
     <div class="palm-left">
       <svg width="72" height="110" viewBox="0 0 72 110">
         <path d="M36 108 Q32 80 34 55 Q36 30 38 10" stroke="#8b6320" stroke-width="7" fill="none" stroke-linecap="round"/>
@@ -406,13 +357,10 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
         <circle cx="35" cy="22" r="3.5" fill="#b89030" opacity=".9"/>
       </svg>
     </div>
-
-    <!-- Sand -->
     <div class="sand-strip"></div>
     <div class="sand-detail"></div>
   </div>
 
-  <!-- Dancer -->
   <div class="dancer-wrap">
     <svg width="210" height="420" viewBox="0 0 210 420" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -592,7 +540,7 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
     <span class="reveal-child rd1 s-label">Getting There</span>
     <h2 class="reveal-child rd2 s-title">🚌 Travel Details</h2>
     <div class="reveal-child rd3" style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-top:36px;max-width:640px;margin-left:auto;margin-right:auto;">
-      <div style="flex:1;min-width:220px;background:var(--bg-card);backdrop-filter:blur(12px);border-radius:20px;padding:32px 24px;border:1.5px solid var(--card-border);box-shadow:0 8px 32px rgba(141,91,76,.08);">
+      <div style="flex:1;min-width:220px;background:var(--bg-card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:20px;padding:32px 24px;border:1.5px solid var(--card-border);box-shadow:0 8px 32px rgba(141,91,76,.08);">
         <div style="font-size:36px;margin-bottom:14px;">🌅</div>
         <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--sand-light);margin-bottom:16px;letter-spacing:1px;font-weight:700;">12 / 6 · Departure</div>
         <div style="font-size:15px;color:var(--cream);margin-bottom:8px;font-weight:500;">🚍 Departure from Cairo</div>
@@ -601,7 +549,7 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
         <div style="font-size:15px;color:var(--cream);margin-bottom:8px;font-weight:500;">🏖️ Arrival to Gouna</div>
         <div style="font-size:22px;font-family:'Playfair Display',serif;color:var(--coral-light);font-weight:700;">12:00 PM</div>
       </div>
-      <div style="flex:1;min-width:220px;background:var(--bg-card);backdrop-filter:blur(12px);border-radius:20px;padding:32px 24px;border:1.5px solid var(--card-border);box-shadow:0 8px 32px rgba(141,91,76,.08);">
+      <div style="flex:1;min-width:220px;background:var(--bg-card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:20px;padding:32px 24px;border:1.5px solid var(--card-border);box-shadow:0 8px 32px rgba(141,91,76,.08);">
         <div style="font-size:36px;margin-bottom:14px;">🌙</div>
         <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--sand-light);margin-bottom:16px;letter-spacing:1px;font-weight:700;">15 / 6 · Return</div>
         <div style="font-size:15px;color:var(--cream);margin-bottom:8px;font-weight:500;">🚍 Departure from Gouna</div>
@@ -619,7 +567,7 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
   <section class="reveal-section" style="background:var(--bg-mid);padding:72px 24px;text-align:center;">
     <span class="reveal-child rd1 s-label">Counting Down to</span>
     <h2 class="reveal-child rd2 s-title">The Getaway 🌊</h2>
-    <div class="reveal-child rd3" style="display:flex;justify-content:center;gap:clamp(10px,2.5vw,24px);flex-wrap:wrap;">
+    <div class="reveal-child rd3 countdown-row">
       <div class="cbox"><div class="cnum" id="cd-days">--</div><div class="clbl">Days</div></div>
       <div class="cbox"><div class="cnum" id="cd-hours">--</div><div class="clbl">Hours</div></div>
       <div class="cbox"><div class="cnum" id="cd-mins">--</div><div class="clbl">Minutes</div></div>
@@ -640,7 +588,7 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
       <div class="reveal-child rd3" style="width:60px;height:2px;background:linear-gradient(90deg,#e76f51,#ff85a1);margin:20px auto;border-radius:2px;"></div>
       <p class="reveal-child rd3" style="font-size:clamp(13px,2vw,16px);color:#fff;letter-spacing:3px;margin-bottom:26px;">Pool Villa · Lagoon · Yacht · Island Stops</p>
       <div class="reveal-child rd4">
-        <a class="gold-btn" href="https://maps.app.goo.gl/21m2b4umDR1GCAQH7" target="_blank" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.4);backdrop-filter:blur(10px);">🗺️ &nbsp; Get Directions</a>
+        <a class="gold-btn" href="https://maps.app.goo.gl/21m2b4umDR1GCAQH7" target="_blank" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);">🗺️ &nbsp; Get Directions</a>
       </div>
     </div>
   </section>
@@ -651,8 +599,7 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
   <section class="reveal-section" style="background:var(--bg-mid);padding:72px 24px;">
     <span class="reveal-child rd1 s-label" style="text-align:center;display:block;">The Eras</span>
     <h2 class="reveal-child rd2 s-title" style="text-align:center;">Party Timeline 🎉</h2>
-    <div class="reveal-child rd3 timeline-days-wrap" style="margin-top:48px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;max-width:1000px;margin-left:auto;margin-right:auto;">
-
+    <div class="reveal-child rd3" style="margin-top:48px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;max-width:1000px;margin-left:auto;margin-right:auto;">
       <div class="era-card">
         <div style="text-align:center;margin-bottom:24px;">
           <div style="font-size:32px;margin-bottom:8px;">🤠</div>
@@ -666,7 +613,6 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
         <div class="sched-item"><div class="sched-icon">🌮</div><div class="sched-det"><h4>Tacos in Downtown</h4><p>Gelato after tacos</p></div></div>
         <div class="sched-item" style="margin-bottom:0;"><div class="sched-icon">✨</div><div class="sched-det"><h4>Night Pool Bikini Party</h4><p>Wild girl energy activated</p></div></div>
       </div>
-
       <div class="era-card">
         <div style="text-align:center;margin-bottom:24px;">
           <div style="font-size:32px;margin-bottom:8px;">💛🌺</div>
@@ -679,7 +625,6 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
         <div class="sched-item"><div class="sched-icon">📸</div><div class="sched-det"><h4>Sunset Photos</h4><p>Golden hour magic</p></div></div>
         <div class="sched-item" style="margin-bottom:0;"><div class="sched-icon">✨</div><div class="sched-det"><h4>Bling Bling Night at Nwera</h4><p>Drip everything ✨</p></div></div>
       </div>
-
       <div class="era-card">
         <div style="text-align:center;margin-bottom:24px;">
           <div style="font-size:32px;margin-bottom:8px;">💗</div>
@@ -693,7 +638,6 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
         <div class="sched-item"><div class="sched-icon">🏠</div><div class="sched-det"><h4>Return to Villa + Rest</h4><p>Recharge for the night</p></div></div>
         <div class="sched-item" style="margin-bottom:0;"><div class="sched-icon">🐆</div><div class="sched-det"><h4>Leopard Wild Girl Evening</h4><p>Dinner at New Marina / BBQ Bros</p></div></div>
       </div>
-
       <div class="era-card">
         <div style="text-align:center;margin-bottom:24px;">
           <div style="font-size:32px;margin-bottom:8px;">💍</div>
@@ -706,7 +650,6 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
         <div class="sched-item"><div class="sched-icon">🚌</div><div class="sched-det"><h4>Departure to Cairo</h4><p>Gouna 1:45PM → Cairo 8:45PM</p></div></div>
         <div class="sched-item" style="margin-bottom:0;"><div class="sched-icon">✨</div><div class="sched-det"><h4>Until the Wedding…</h4><p>💍✨</p></div></div>
       </div>
-
     </div>
   </section>
 
@@ -820,159 +763,62 @@ body{font-family:'DM Sans',sans-serif;background:linear-gradient(to bottom, #fff
 </div>
 
 <script>
-/* ── Opening Stars (Now actually renders because #dancer-stars exists) ── */
-(function(){
-  const c=document.getElementById('dancer-stars');
-  if(!c)return;
-  for(let i=0;i<60;i++){
-    const sz=Math.random()*2.5+0.5,star=document.createElement('div');
-    star.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:rgba(255,200,120,.9);left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${Math.random()*.5+.1};animation:starTwinkle ${2+Math.random()*3}s ${Math.random()*2}s ease-in-out infinite;`;
-    c.appendChild(star);
-  }
-})();
+/* ── Opening Stars ── */
+try{
+  (function(){
+    var c=document.getElementById('dancer-stars');
+    if(!c)return;
+    for(var i=0;i<60;i++){
+      var sz=Math.random()*2.5+0.5,star=document.createElement('div');
+      star.style.cssText='position:absolute;width:'+sz+'px;height:'+sz+'px;border-radius:50%;background:rgba(255,200,120,.9);left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;opacity:'+(Math.random()*.5+.1)+';animation:starTwinkle '+(2+Math.random()*3)+'s '+(Math.random()*2)+'s ease-in-out infinite;';
+      c.appendChild(star);
+    }
+  })();
+}catch(e){}
 
-/* ── Music Logic (Mobile-Safe) ── */
-let musicStarted=false, muted=false;
-const bgm=document.getElementById('bgm');
+/* ── Music (Mobile-safe: no .load(), no AudioContext, no gesture-chain breaks) ── */
+var musicStarted=false,muted=false;
+var bgm=document.getElementById('bgm');
 
 function fadeInMusic(){
-  if(musicStarted) return;
+  if(musicStarted)return;
   musicStarted=true;
-  
-  // Start at 0 volume to fade in smoothly
   bgm.volume=0;
-  
-  const playPromise=bgm.play();
+  var playPromise=bgm.play();
   if(playPromise!==undefined){
-    playPromise.then(()=>{
-      let v=0;
-      const t=setInterval(()=>{
-        v=Math.min(v+0.02, 0.65);
+    playPromise.then(function(){
+      var v=0;
+      var t=setInterval(function(){
+        v=Math.min(v+0.02,0.65);
         bgm.volume=v;
-        if(v>=0.65) clearInterval(t);
-      }, 120);
-      const btn=document.getElementById('music-btn');
-      btn.style.display='flex'; btn.textContent='🔊';
-    }).catch(()=>{
-      // Autoplay blocked — show play button so user can manually trigger
-      const btn=document.getElementById('music-btn');
-      btn.style.display='flex'; btn.textContent='▶';
+        if(v>=0.65)clearInterval(t);
+      },120);
+      var btn=document.getElementById('music-btn');
+      btn.style.display='flex';btn.textContent='🔊';
+    }).catch(function(){
+      var btn=document.getElementById('music-btn');
+      btn.style.display='flex';btn.textContent='▶';
     });
   }
 }
 
 function toggleMusic(){
-  const btn=document.getElementById('music-btn');
-  if(!musicStarted){ fadeInMusic(); return; }
-  if(muted){ bgm.muted=false; muted=false; btn.textContent='🔊'; }
-  else { bgm.muted=true; muted=true; btn.textContent='🔇'; }
+  var btn=document.getElementById('music-btn');
+  if(!musicStarted){fadeInMusic();return;}
+  if(muted){bgm.muted=false;muted=false;btn.textContent='🔊';}
+  else{bgm.muted=true;muted=true;btn.textContent='🔇';}
 }
 
 /* ── Confetti ── */
 function spawnConfetti(){
-  const colors=['#e76f51','#ff85a1','#ffb5a7','#d4a373','#ffeae2'];
-  for(let i=0;i<60;i++){
-    const el=document.createElement('div');el.className='confetti-piece';
-    el.style.cssText=`left:${20+Math.random()*60}%;top:-10px;background:${colors[i%colors.length]};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.4}s;transform:rotate(${Math.random()*360}deg);`;
+  var colors=['#e76f51','#ff85a1','#ffb5a7','#d4a373','#ffeae2'];
+  for(var i=0;i<60;i++){
+    var el=document.createElement('div');el.className='confetti-piece';
+    el.style.cssText='left:'+(20+Math.random()*60)+'%;top:-10px;background:'+colors[i%colors.length]+';animation-duration:'+(1.5+Math.random()*2)+'s;animation-delay:'+(Math.random()*.4)+'s;transform:rotate('+Math.random()*360+'deg);';
     document.body.appendChild(el);
-    setTimeout(()=>el.remove(),4000);
+    setTimeout(function(e){return function(){e.remove()}}(el),4000);
   }
 }
 
-/* ── Open Invitation (Mobile-Safe DOM prioritization) ── */
-let invitationOpened = false;
-function openInvitation(){
-  if(invitationOpened) return; // Guard against double-fires on mobile
-  invitationOpened = true;
-
-  // 1. DOM TRANSITIONS FIRST (must succeed no matter what)
-  const screen=document.getElementById('dancer-screen');
-  screen.style.transition='opacity 0.6s ease-out,transform 0.6s ease-out';
-  screen.style.opacity='0';
-  screen.style.transform='scale(0.95)';
-  spawnConfetti();
-
-  // 2. LOGIC & AUDIO SECOND (inside timeout, separate from DOM logic)
-  setTimeout(()=>{
-    screen.style.display='none';
-    const inv=document.getElementById('invitation');
-    inv.style.display='block';
-    startCountdown();
-    initScrollReveal();
-    initCinematicEnding();
-    initParallax(); // Added active parallax logic
-    
-    // Audio wrapped in try-catch so it never blocks the UI
-    try { 
-      fadeInMusic(); 
-    } catch(e) { 
-      console.warn('Music failed:', e); 
-    }
-  }, 600);
-}
-
-/* ── Parallax (Now Active) ── */
-function initParallax(){
-  const bg=document.getElementById('venue-bg');
-  if(!bg) return;
-  window.addEventListener('scroll',()=>{
-    const rect=bg.parentElement.getBoundingClientRect();
-    if(rect.bottom>0 && rect.top<window.innerHeight){
-      bg.style.transform=`translateY(${rect.top*0.3}px)`;
-    }
-  },{passive:true});
-}
-
-/* ── Save Date ── */
-function saveDate(e){
-  e.preventDefault();
-  const ics=['BEGIN:VCALENDAR','VERSION:2.0','BEGIN:VEVENT','DTSTART:20260612T050000','DTEND:20260615T204500',"SUMMARY:Yara's Bride Era — Bachelorette Weekend El Gouna",'LOCATION:Elgouna, Red Sea, Egypt','DESCRIPTION:Bachelorette Weekend · 12/6 – 15/6 · Cowgirl, Hawaiian, Pink Yacht & Wild Girl Eras!','END:VEVENT','END:VCALENDAR'].join('\r\n');
-  const blob=new Blob([ics],{type:'text/calendar'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='yara-bride-era.ics';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
-}
-
-/* ── Countdown ── */
-function startCountdown(){
-  const target=new Date('2026-06-12T05:00:00');const pad=n=>String(n).padStart(2,'0');
-  function update(){const diff=Math.max(0,target-new Date());document.getElementById('cd-days').textContent=pad(Math.floor(diff/86400000));document.getElementById('cd-hours').textContent=pad(Math.floor((diff%86400000)/3600000));document.getElementById('cd-mins').textContent=pad(Math.floor((diff%3600000)/60000));document.getElementById('cd-secs').textContent=pad(Math.floor((diff%60000)/1000));}
-  update();setInterval(update,1000);
-}
-
-/* ── RSVP ── */
-function submitRSVP(){
-  const name=document.getElementById('rsvp-name').value.trim();
-  if(!name){alert('Please enter your name! 🌊');return;}
-  const status=document.getElementById('rsvp-attending').value;
-  const txt=status==='yes'?`Amazing, ${name}! You're locked in for our Bachelorette Weekend! Pack your bags! 🌊💗`:`Aww, ${name}. We'll miss you on the yacht so much! 💔`;
-  document.getElementById('rsvp-confirm-text').textContent=txt;
-  const c=document.getElementById('rsvp-confirm');c.style.display='block';c.style.animation='rsvpPop .5s ease both';
-  document.getElementById('rsvp-name').value='';spawnConfetti();
-}
-
-/* ── Scroll Reveal ── */
-function initScrollReveal(){
-  const sections=document.querySelectorAll('.reveal-section');
-  const obs=new IntersectionObserver((entries,o)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');if(e.target.id==='cinematic-ending')triggerCinematicEndingParticles();o.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
-  sections.forEach(s=>obs.observe(s));
-}
-
-/* ── Cinematic Ending ── */
-function initCinematicEnding(){
-  const c=document.getElementById('ending-stars');if(!c)return;
-  for(let i=0;i<45;i++){const sz=Math.random()*2+0.5,star=document.createElement('div');star.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:rgba(255,180,100,.8);left:${Math.random()*100}%;top:${Math.random()*100}%;opacity:${Math.random()*.5+.1};animation:starTwinkle ${2+Math.random()*3}s ${Math.random()*2}s ease-in-out infinite;`;c.appendChild(star);}
-}
-
-let endingParticlesInterval=null;
-function triggerCinematicEndingParticles(){
-  const c=document.getElementById('ending-particles');if(!c||endingParticlesInterval)return;
-  const colors=['#ff85a1','#e76f51','#ffeae2'];
-  function spawn(){if(c.childElementCount>40)return;const p=document.createElement('div'),sz=Math.random()*3.5+1.5,dur=Math.random()*6+5;p.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:${colors[Math.floor(Math.random()*colors.length)]};left:${Math.random()*100}%;bottom:-10px;opacity:0;pointer-events:none;animation:endingDrift ${dur}s ease-in-out forwards;`;c.appendChild(p);setTimeout(()=>p.remove(),dur*1000);}
-  endingParticlesInterval=setInterval(spawn,280);
-}
-
-/* ── Loading Screen ── */
-window.addEventListener('DOMContentLoaded',()=>{
-  setTimeout(()=>{const loader=document.getElementById('loading-screen');if(loader){loader.style.opacity='0';loader.style.visibility='hidden';setTimeout(()=>loader.remove(),850);}},2400);
-});
-</script>
-</body>
-</html>
+/* ── Open Invitation (Mobile-safe: DOM first, audio last in try-catch) ── */
+var invitationOpened=false
