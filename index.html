@@ -197,12 +197,12 @@ try{var fc=document.createElement("canvas");fc.width=32;fc.height=32;var fx=fc.g
 </script>
 
 <audio id="bgm" loop preload="auto" playsinline webkit-playsinline x-webkit-airplay="allow">
-<source src="helela.mp3" type="audio/mpeg">
 <source src="helela.m4a" type="audio/mp4">
+<source src="helela.mp3" type="audio/mpeg">
 </audio>
 <button id="music-btn" onclick="toggleMusic()" title="Toggle music">🔊</button>
 
-<div id="dancer-screen" onclick="openInvitation()" ontouchstart="openInvitation()">
+<div id="dancer-screen" onclick="openInvitation()">
 <div id="dancer-stars" style="position:absolute;inset:0;pointer-events:none;z-index:1;"></div>
 <div class="wave-stripe top"><div class="wave-stripe-inner"></div></div>
 <div class="wave-stripe bottom"><div class="wave-stripe-inner"></div></div>
@@ -495,33 +495,35 @@ function toggleMusic(){
 
 function spawnConfetti(){var colors=["#e76f51","#ff85a1","#ffb5a7","#d4a373","#ffeae2"];for(var i=0;i<60;i++){var el=document.createElement("div");el.className="confetti-piece";el.style.cssText="left:"+(20+Math.random()*60)+"%;top:-10px;background:"+colors[i%colors.length]+";animation-duration:"+(1.5+Math.random()*2)+"s;animation-delay:"+(Math.random()*.4)+"s;transform:rotate("+Math.random()*360+"deg);";document.body.appendChild(el);setTimeout(function(e){return function(){e.remove()}}(el),4000);}}
 
-let invitationOpened=false;
-function openInvitation(){
-  if(invitationOpened)return;
-  invitationOpened=true;
-  const s=document.getElementById('dancer-screen');
-  if(!musicStarted){
-    musicStarted=true;
-    bgm.volume=0;
-    const btn=document.getElementById('music-btn');
-    bgm.play().then(()=>{
-      let vol=0;
-      const iv=setInterval(()=>{vol=Math.min(vol+0.02,0.6);bgm.volume=vol;if(vol>=0.6)clearInterval(iv);},100);
-      btn.style.display='flex';btn.textContent='\ud83d\udd0a';
-    }).catch(()=>{
-      musicStarted=false;
-      btn.style.display='flex';btn.textContent='\u25b6';
+let isOpening = false;
+function openInvitation() {
+  const screen = document.getElementById('dancer-screen');
+  if (isOpening) return;
+  isOpening = true;
+
+  if (!musicStarted) {
+    musicStarted = true;
+    bgm.volume = 0;
+    const btn = document.getElementById('music-btn');
+    bgm.play().then(() => {
+      let vol = 0;
+      const iv = setInterval(() => { vol = Math.min(vol + 0.02, 0.6); bgm.volume = vol; if (vol >= 0.6) clearInterval(iv); }, 100);
+      btn.style.display = 'flex'; btn.textContent = '🔊';
+    }).catch(() => {
+      musicStarted = false;
+      btn.style.display = 'flex'; btn.textContent = '▶';
     });
   }
+
   spawnConfetti();
-  s.style.transition='opacity 0.6s ease-out,transform 0.6s ease-out';
-  s.style.opacity='0';
-  s.style.transform='scale(0.95)';
-  setTimeout(function(){
-    s.style.display='none';
-    document.getElementById('invitation').style.display='block';
-    startCountdown();initScrollReveal();initCinematicEnding();
-  },600);
+  screen.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+  screen.style.opacity = '0';
+  screen.style.transform = 'scale(0.95)';
+  setTimeout(function() {
+    screen.style.display = 'none';
+    document.getElementById('invitation').style.display = 'block';
+    startCountdown(); initScrollReveal(); initCinematicEnding();
+  }, 600);
 }
 
 function saveDate(e){e.preventDefault();var ics=["BEGIN:VCALENDAR","VERSION:2.0","BEGIN:VEVENT","DTSTART:20260612T050000","DTEND:20260615T204500","SUMMARY:Yara's Bridal Era - Bachelorette Weekend El Gouna","LOCATION:Elgouna, Red Sea, Egypt","DESCRIPTION:Bachelorette Weekend - 12/6 - 15/6","END:VEVENT","END:VCALENDAR"].join("\r\n");var blob=new Blob([ics],{type:"text/calendar"});var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download="yara-bridal-era.ics";document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
