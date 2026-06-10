@@ -459,36 +459,42 @@ try{var fc=document.createElement("canvas");fc.width=32;fc.height=32;var fx=fc.g
 try{(function(){var c=document.getElementById("dancer-stars");if(!c)return;for(var i=0;i<60;i++){var sz=Math.random()*2.5+0.5,s=document.createElement("div");s.style.cssText="position:absolute;width:"+sz+"px;height:"+sz+"px;border-radius:50%;background:rgba(255,200,120,.9);left:"+Math.random()*100+"%;top:"+Math.random()*100+"%;opacity:"+(Math.random()*.5+.1)+";animation:starTwinkle "+(2+Math.random()*3)+"s "+(Math.random()*2)+"s ease-in-out infinite;";c.appendChild(s);}})();}catch(e){}
 
 var musicStarted=false,muted=false;
-function getBgm(){return document.getElementById("bgm");}
+
+function showDebug(msg){
+  var d=document.getElementById("music-debug");
+  if(!d){d=document.createElement("div");d.id="music-debug";d.style.cssText="position:fixed;bottom:60px;right:10px;z-index:9999;background:rgba(0,0,0,0.75);color:#fff;font-size:11px;padding:6px 10px;border-radius:8px;max-width:220px;word-break:break-all;";document.body.appendChild(d);}
+  d.textContent=msg;
+}
 
 function doPlayMusic(){
   if(musicStarted)return;
-  var bgm=getBgm();
-  if(!bgm)return;
+  var bgm=document.getElementById("bgm");
+  if(!bgm){showDebug("no bgm element");return;}
   var b=document.getElementById("music-btn");
   b.style.display="flex";
-  // Don't set volume=0 first — iOS may ignore subsequent volume changes
   bgm.volume=0.65;
   bgm.muted=false;
+  showDebug("trying play... src="+bgm.currentSrc);
   var p;
-  try{ bgm.load(); p=bgm.play(); }catch(e){ b.textContent="ERR"; return; }
+  try{ p=bgm.play(); }catch(e){ showDebug("throw:"+e.message); return; }
   if(p!==undefined){
     p.then(function(){
       musicStarted=true;
       b.textContent="\ud83d\udd0a";
+      showDebug("playing ok");
     }).catch(function(err){
-      // Show error code so we can debug on iPhone
       b.textContent="\u25b6";
-      b.title=err?err.name:"blocked";
+      showDebug("blocked:"+(err?err.name+"/"+err.message:"?"));
     });
   } else {
     musicStarted=true;
     b.textContent="\ud83d\udd0a";
+    showDebug("play() no promise");
   }
 }
 
 function toggleMusic(){
-  var bgm=getBgm();
+  var bgm=document.getElementById("bgm");
   var b=document.getElementById("music-btn");
   if(!musicStarted){doPlayMusic();return;}
   if(muted){bgm.muted=false;muted=false;b.textContent="\ud83d\udd0a";}
