@@ -471,7 +471,7 @@ function doPlayMusic(){
   bgm.volume=0.65;
   bgm.muted=false;
   var p;
-  try{ p=bgm.play(); }catch(e){ b.textContent="ERR"; return; }
+  try{ bgm.load(); p=bgm.play(); }catch(e){ b.textContent="ERR"; return; }
   if(p!==undefined){
     p.then(function(){
       musicStarted=true;
