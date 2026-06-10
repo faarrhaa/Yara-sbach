@@ -465,7 +465,7 @@ function toggleMusic(){var b=document.getElementById("music-btn");if(!musicStart
 function spawnConfetti(){var colors=["#e76f51","#ff85a1","#ffb5a7","#d4a373","#ffeae2"];for(var i=0;i<60;i++){var el=document.createElement("div");el.className="confetti-piece";el.style.cssText="left:"+(20+Math.random()*60)+"%;top:-10px;background:"+colors[i%colors.length]+";animation-duration:"+(1.5+Math.random()*2)+"s;animation-delay:"+(Math.random()*.4)+"s;transform:rotate("+Math.random()*360+"deg);";document.body.appendChild(el);setTimeout(function(e){return function(){e.remove()}}(el),4000);}}
 
 var invitationOpened=false;
-function openInvitation(){if(invitationOpened)return;invitationOpened=true;var s=document.getElementById("dancer-screen");s.style.transition="opacity 0.6s ease-out,transform 0.6s ease-out";s.style.opacity="0";s.style.transform="scale(0.95)";spawnConfetti();var b=document.getElementById("music-btn");b.style.display="flex";b.textContent="\u25b6";try{bgm.load();bgm.volume=0;var p=bgm.play();if(p!==undefined){p.then(function(){musicStarted=true;b.textContent="\ud83d\udd0a";var v=0,ti=setInterval(function(){v=Math.min(v+.02,.65);bgm.volume=v;if(v>=.65)clearInterval(ti);},120);}).catch(function(){b.textContent="\u25b6";});}else{musicStarted=true;b.textContent="\ud83d\udd0a";}}catch(ex){}setTimeout(function(){s.style.display="none";document.getElementById("invitation").style.display="block";startCountdown();initScrollReveal();initCinematicEnding();},600);}
+function openInvitation(){if(invitationOpened)return;invitationOpened=true;var s=document.getElementById("dancer-screen");s.style.transition="opacity 0.6s ease-out,transform 0.6s ease-out";s.style.opacity="0";s.style.transform="scale(0.95)";spawnConfetti();var b=document.getElementById("music-btn");b.style.display="flex";b.textContent="\u25b6";function tryPlay(){if(musicStarted)return;try{bgm.currentTime=0;bgm.volume=0;var p=bgm.play();if(p!==undefined){p.then(function(){musicStarted=true;b.textContent="\ud83d\udd0a";var v=0,ti=setInterval(function(){v=Math.min(v+.02,.65);bgm.volume=v;if(v>=.65)clearInterval(ti);},120);}).catch(function(){b.textContent="\u25b6";});}else{musicStarted=true;b.textContent="\ud83d\udd0a";}}catch(ex){b.textContent="\u25b6";}}tryPlay();setTimeout(tryPlay,400);setTimeout(function(){s.style.display="none";document.getElementById("invitation").style.display="block";startCountdown();initScrollReveal();initCinematicEnding();},600);}
 
 function saveDate(e){e.preventDefault();var ics=["BEGIN:VCALENDAR","VERSION:2.0","BEGIN:VEVENT","DTSTART:20260612T050000","DTEND:20260615T204500","SUMMARY:Yara's Bridal Era - Bachelorette Weekend El Gouna","LOCATION:Elgouna, Red Sea, Egypt","DESCRIPTION:Bachelorette Weekend - 12/6 - 15/6","END:VEVENT","END:VCALENDAR"].join("\r\n");var blob=new Blob([ics],{type:"text/calendar"});var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download="yara-bridal-era.ics";document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
 
@@ -481,6 +481,22 @@ function triggerCinematicEndingParticles(){var c=document.getElementById("ending
 
 function dismissLoader(){var loader=document.getElementById("loading-screen");if(loader){loader.style.opacity="0";loader.style.visibility="hidden";setTimeout(function(){if(loader.parentNode)loader.parentNode.removeChild(loader)},850);}}
 if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){setTimeout(dismissLoader,2400);});}else{setTimeout(dismissLoader,2400);}
+
+// iOS Safari audio unlock: play silent audio on very first touch to unlock AudioContext
+var iosUnlocked=false;
+function unlockIOSAudio(){
+  if(iosUnlocked)return;
+  iosUnlocked=true;
+  bgm.load();
+  var p=bgm.play();
+  if(p!==undefined){p.then(function(){bgm.pause();bgm.currentTime=0;}).catch(function(){});}
+  document.removeEventListener('touchstart',unlockIOSAudio,true);
+}
+document.addEventListener('touchstart',unlockIOSAudio,true);
+
+// Also bind touchstart on dancer screen so iOS tap opens invitation immediately
+var ds=document.getElementById('dancer-screen');
+if(ds){ds.addEventListener('touchstart',function(e){e.preventDefault();openInvitation();},{passive:false});}
 </script>
 </body>
 </html>
