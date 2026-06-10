@@ -200,9 +200,9 @@ try{var fc=document.createElement("canvas");fc.width=32;fc.height=32;var fx=fc.g
 <source src="helela.mp3" type="audio/mpeg">
 <source src="helela.m4a" type="audio/mp4">
 </audio>
-<button id="music-btn" onclick="toggleMusic()" title="Toggle music">🔇</button>
+<button id="music-btn" onclick="toggleMusic()" title="Toggle music">🔊</button>
 
-<div id="dancer-screen" onclick="openInvitation()">
+<div id="dancer-screen" onclick="openInvitation()" ontouchstart="openInvitation()">
 <div id="dancer-stars" style="position:absolute;inset:0;pointer-events:none;z-index:1;"></div>
 <div class="wave-stripe top"><div class="wave-stripe-inner"></div></div>
 <div class="wave-stripe bottom"><div class="wave-stripe-inner"></div></div>
