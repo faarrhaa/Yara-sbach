@@ -7,7 +7,7 @@
 <title>🌊 Yara's Bridal Era — Bachelorette Weekend | El Gouna 2026</title>
 <meta name="description" content="Welcome to Yara's Bridal Era! Bachelorette Weekend | El Gouna 2026 · 12/6 – 15/6."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -460,89 +460,13 @@ try{(function(){var c=document.getElementById("dancer-stars");if(!c)return;for(v
 
 var musicStarted=false,muted=false,bgm=document.getElementById("bgm");
 
-// Pre-load audio on first touch to help mobile readiness
-(function(){
-  function preloadAudio(){
-    try{bgm.load();}catch(e){}
-    document.removeEventListener('touchstart',preloadAudio);
-    document.removeEventListener('touchend',preloadAudio);
-  }
-  document.addEventListener('touchstart',preloadAudio,{once:true});
-  document.addEventListener('touchend',preloadAudio,{once:true});
-})();
-
-// Start audio — MUST be called synchronously from a user gesture (click/tap)
-function startAudioOnGesture(){
-  if(musicStarted) return;
-  bgm.volume=0;
-  try{bgm.load();}catch(e){}
-  var p=bgm.play();
-  if(p!==undefined){
-    p.then(function(){
-      musicStarted=true;
-      var v=0,t=setInterval(function(){
-        v=Math.min(v+.02,.65);
-        bgm.volume=v;
-        if(v>=.65) clearInterval(t);
-      },120);
-      var b=document.getElementById("music-btn");
-      b.style.display="flex";
-      b.textContent="\ud83d\udd0a";
-    }).catch(function(){
-      // Autoplay blocked — show play button so user can manually start
-      var b=document.getElementById("music-btn");
-      b.style.display="flex";
-      b.textContent="\u25b6";
-    });
-  }
-}
-
-function fadeInMusic(){
-  if(musicStarted) return;
-  startAudioOnGesture();
-}
-
-function toggleMusic(){
-  var b=document.getElementById("music-btn");
-  if(!musicStarted){
-    startAudioOnGesture();
-    return;
-  }
-  if(muted){
-    bgm.muted=false;
-    muted=false;
-    b.textContent="\ud83d\udd0a";
-  }else{
-    bgm.muted=true;
-    muted=true;
-    b.textContent="\ud83d\udd07";
-  }
-}
+function fadeInMusic(){if(musicStarted)return;musicStarted=true;bgm.volume=0;var p=bgm.play();if(p!==undefined){p.then(function(){var v=0,t=setInterval(function(){v=Math.min(v+.02,.65);bgm.volume=v;if(v>=.65)clearInterval(t);},120);var b=document.getElementById("music-btn");b.style.display="flex";b.textContent="\ud83d\udd0a";}).catch(function(){var b=document.getElementById("music-btn");b.style.display="flex";b.textContent="\u25b6";});}}
+function toggleMusic(){var b=document.getElementById("music-btn");if(!musicStarted){fadeInMusic();return;}if(muted){bgm.muted=false;muted=false;b.textContent="\ud83d\udd0a";}else{bgm.muted=true;muted=true;b.textContent="\ud83d\udd07";}}
 
 function spawnConfetti(){var colors=["#e76f51","#ff85a1","#ffb5a7","#d4a373","#ffeae2"];for(var i=0;i<60;i++){var el=document.createElement("div");el.className="confetti-piece";el.style.cssText="left:"+(20+Math.random()*60)+"%;top:-10px;background:"+colors[i%colors.length]+";animation-duration:"+(1.5+Math.random()*2)+"s;animation-delay:"+(Math.random()*.4)+"s;transform:rotate("+Math.random()*360+"deg);";document.body.appendChild(el);setTimeout(function(e){return function(){e.remove()}}(el),4000);}}
 
 var invitationOpened=false;
-function openInvitation(){
-  if(invitationOpened) return;
-  invitationOpened=true;
-
-  // CRITICAL: Start audio SYNCHRONOUSLY in the click handler for mobile
-  // Must happen BEFORE any setTimeout — mobile browsers require user gesture context
-  try{startAudioOnGesture();}catch(e){}
-
-  var s=document.getElementById("dancer-screen");
-  s.style.transition="opacity 0.6s ease-out,transform 0.6s ease-out";
-  s.style.opacity="0";
-  s.style.transform="scale(0.95)";
-  spawnConfetti();
-  setTimeout(function(){
-    s.style.display="none";
-    document.getElementById("invitation").style.display="block";
-    startCountdown();
-    initScrollReveal();
-    initCinematicEnding();
-  },600);
-}
+function openInvitation(){if(invitationOpened)return;invitationOpened=true;var s=document.getElementById("dancer-screen");s.style.transition="opacity 0.6s ease-out,transform 0.6s ease-out";s.style.opacity="0";s.style.transform="scale(0.95)";spawnConfetti();setTimeout(function(){s.style.display="none";document.getElementById("invitation").style.display="block";startCountdown();initScrollReveal();initCinematicEnding();try{fadeInMusic();}catch(e){}},600);}
 
 function saveDate(e){e.preventDefault();var ics=["BEGIN:VCALENDAR","VERSION:2.0","BEGIN:VEVENT","DTSTART:20260612T050000","DTEND:20260615T204500","SUMMARY:Yara's Bridal Era - Bachelorette Weekend El Gouna","LOCATION:Elgouna, Red Sea, Egypt","DESCRIPTION:Bachelorette Weekend - 12/6 - 15/6","END:VEVENT","END:VCALENDAR"].join("\r\n");var blob=new Blob([ics],{type:"text/calendar"});var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download="yara-bridal-era.ics";document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);}
 
